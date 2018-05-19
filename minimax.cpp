@@ -1,5 +1,5 @@
-/*@@¤H¤u´¼¼z§@·~-3
-  @@minimaxºtºâªk & alpha beta pruning*/
+/*@@äººå·¥æ™ºæ…§ä½œæ¥­-3
+  @@minimaxæ¼”ç®—æ³• & alpha beta pruning*/
 
 #include <iostream>
 #include <fstream>
