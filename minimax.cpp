@@ -1,5 +1,5 @@
-/*@@äººå·¥æ™ºæ…§ä½œæ¥­-3
-  @@minimaxæ¼”ç®—æ³• & alpha beta pruning*/
+/*@@¤H¤u´¼¼z§@·~-3
+  @@minimaxºtºâªk & alpha beta pruning*/
 
 #include <iostream>
 #include <fstream>
@@ -72,25 +72,14 @@ class MiniMax {
 protected:
 	Tree *tree;
 	int fork;
-	int pushsize;
 	std::vector<int> pruning, p_index;
-
-	typedef struct node {
-		int data;
-	}node;
 
 public:
 	MiniMax(int fork,int level) {
 		tree = new Tree(fork, level);
 		this->fork = fork;
-		pushsize = static_cast<int>(pow((double)fork, (double)level));
 	}
-
-
-	int get_pushsize() {
-		return pushsize;
-	}
-
+	
 
 	void push(int data) {
 		tree->push(data);
@@ -221,6 +210,7 @@ int main() {
 	file.open("test1.txt", std::ios::in);
 	if (!file) {
 		std::cout << "file open failed.\n";
+		file.close();
 		system("PAUSE");
 		return 0;
 	}
