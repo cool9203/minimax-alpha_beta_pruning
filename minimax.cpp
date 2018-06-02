@@ -125,12 +125,10 @@ public:
 		}
 
 		int m;
-		if (minmax) {
+		if (minmax) 
 			m = max(number);
-		}
-		else {
+		else
 			m = min(number);
-		}
 		tree->push(count, m);
 		return tree->at(count);
 	}
