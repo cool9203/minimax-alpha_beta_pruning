@@ -106,28 +106,22 @@ public:
 			return tree->at(count);
 		}
 
+		//a or b = max(a,child) or min(b,child);
 		if (minmax)
 			number.push_back(a);
 		else
 			number.push_back(b);
 
 		for (int i = 1; i <= fork; i++) {
+			number.push_back(dfs(fork*count + i, !minmax, a, b, push));
 			if (minmax) {
-				a = dfs(fork*count + i, !minmax, a, b, push);
-				number.push_back(a);
 				a = max(number);
-				if (a >= b) {
-					push = true;
-				}
 			}
 			else {
-				b = dfs(fork*count + i, !minmax, a, b, push);
-				number.push_back(b);
 				b = min(number);
-				if (a >= b) {
-					push = true;
-				}
 			}
+			if (a >= b) 
+				push = true;
 		}
 
 		int m;
