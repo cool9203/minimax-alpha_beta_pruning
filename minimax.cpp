@@ -1,5 +1,5 @@
-/*@@äººå·¥æ™ºæ…§ä½œæ¥­-3
-  @@minimaxæ¼”ç®—æ³• & alpha beta pruning*/
+/*@@¤H¤u´¼¼z§@·~-3
+  @@minimaxºtºâªk & alpha beta pruning*/
 
 #include <iostream>
 #include <fstream>
@@ -73,11 +73,13 @@ protected:
 	Tree *tree;
 	int fork;
 	std::vector<int> pruning, p_index;
+	int leftindex;
 
 public:
 	MiniMax(int fork,int level) {
 		tree = new Tree(fork, level);
 		this->fork = fork;
+		leftindex = tree->math_level(0);
 	}
 	
 
@@ -93,39 +95,36 @@ public:
 	}
 
 
-	void alpha_beta_pruning(int count, bool minmax, int apbe) {
-		int ch_apbe = tree->at(count);
-	}
-
-
-	//use alpha_beta_pruning's dfs
-	int dfs(int count, bool minmax, int apbe, bool push) { //true max   false min
+	int dfs(int count, bool minmax, int a, int b, bool push) { //true max   false min
 		std::vector<int> number;
 		if (push) {
 			pruning.push_back(tree->at(count));
 			p_index.push_back(count);
 		}
 
-		int ch_apbe;
-		if (minmax)
-			ch_apbe = -99999;
-		else
-			ch_apbe = 99999;
-
 		if ((fork*count + 1) >= tree->size()) { //if child is null  than  return him
 			return tree->at(count);
 		}
 
+		if (minmax)
+			number.push_back(a);
+		else
+			number.push_back(b);
+
 		for (int i = 1; i <= fork; i++) {
-			ch_apbe = dfs(fork*count + i, !minmax, ch_apbe, push);
-			number.push_back(ch_apbe);
 			if (minmax) {
-				if (ch_apbe >= apbe) {
+				a = dfs(fork*count + i, !minmax, a, b, push);
+				number.push_back(a);
+				a = max(number);
+				if (a >= b) {
 					push = true;
 				}
 			}
 			else {
-				if (apbe >= ch_apbe) {
+				b = dfs(fork*count + i, !minmax, a, b, push);
+				number.push_back(b);
+				b = min(number);
+				if (a >= b) {
 					push = true;
 				}
 			}
@@ -165,12 +164,18 @@ public:
 		tree->push(count, m);
 		return tree->at(count);
 	}
-
+	
 
 	void print_pruning() {
-		std::cout << "\n\n" << pruning.size() << " ";
+		int count = 0;
 		for (int i = 0; i < static_cast<int>(pruning.size()); i++) {
-			std::cout << pruning.at(i) << "(" << p_index.at(i) << ") ";
+			if (p_index.at(i) >= leftindex)
+				count++;
+		}
+		std::cout << "\n\n" << count << " ";
+		for (int i = 0; i < static_cast<int>(pruning.size()); i++) {
+			if (p_index.at(i) >= leftindex)
+				std::cout << pruning.at(i) << "(" << p_index.at(i) << ") ";
 		}
 	}
 
@@ -207,7 +212,7 @@ int main() {
 	std::fstream file;
 	std::vector<int> number;
 	char ch;
-	file.open("test1.txt", std::ios::in);
+	file.open("test.txt", std::ios::in);
 	if (!file) {
 		std::cout << "file open failed.\n";
 		file.close();
@@ -242,8 +247,8 @@ int main() {
 	MiniMax m(fork, level);
 	m.push(number);
 
-	m.dfs(0, true);
-	m.dfs(0, true, 999, false);
+	//m.dfs(0, true);
+	m.dfs(0, true, -99999, 99999, false);
 	m.print();
 	m.print_pruning();
 
