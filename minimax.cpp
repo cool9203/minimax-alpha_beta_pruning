@@ -102,9 +102,8 @@ public:
 			p_index.push_back(count);
 		}
 
-		if ((fork*count + 1) >= tree->size()) { //if child is null  than  return him
+		if ((fork*count + 1) >= tree->size()) //if child is null  than  return him
 			return tree->at(count);
-		}
 
 		//a or b = max(a,child) or min(b,child);
 		if (minmax)
@@ -114,12 +113,11 @@ public:
 
 		for (int i = 1; i <= fork; i++) {
 			number.push_back(dfs(fork*count + i, !minmax, a, b, push));
-			if (minmax) {
+			if (minmax)
 				a = max(number);
-			}
-			else {
+			else
 				b = min(number);
-			}
+			
 			if (a >= b) 
 				push = true;
 		}
